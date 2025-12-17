@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <title>Lecture 1: Introduction | CMSC 25700/35100 NLP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+        }
+        .reveal section {
+            text-align: left;
+        }
+        .reveal section.center {
+            text-align: center;
+        }
+        .reveal .small {
+            font-size: 0.7em;
+        }
+        .reveal .red {
+            color: #c00;
+        }
+        .reveal .blue {
+            color: #00c;
+        }
+        .reveal .green {
+            color: #0c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="center">
+                <h1>CMSC 25700/35100:<br>Natural Language Processing</h1>
+                <h2>Lecture 1: Introduction</h2>
+                <p style="margin-top: 100px;">
+                    <strong>Chenhao Tan</strong><br>
+                    University of Chicago<br>
+                    @ChenhaoTan, chenhao@uchicago.edu
+                </p>
+            </section>
+
+            <!-- Your Instructors -->
+            <section>
+                <h2>Your instructors</h2>
+                <ul>
+                    <li><strong>Chenhao Tan</strong> (instructor; <a href="https://chenhaot.com">https://chenhaot.com</a>):
+                        <ul>
+                            <li>Assistant Professor at UChicago</li>
+                            <li>Research interest: NLP, human-centered machine learning, computational social science</li>
+                            <li>Chicago Human+AI Lab (<a href="https://chicagohai.github.io">https://chicagohai.github.io</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>TAs:</strong> Mourad Heddaya and Chih-Chan Tien</li>
+                </ul>
+            </section>
+
+            <!-- Lecture Logistics -->
+            <section>
+                <h2>Lecture logistics</h2>
+                <ul>
+                    <li>Google doc for collective note-taking</li>
+                    <li>A little break of about 5 minutes around 40-50 minutes (ideas for what to do with the break are welcome)</li>
+                </ul>
+            </section>
+
+            <!-- What is NLP? -->
+            <section class="center">
+                <h2>What is NLP?</h2>
+                <ul style="list-style: none; font-size: 1.2em;">
+                    <li><strong>Natural language (NL):</strong> Mandarin Chinese, English, Spanish, Hindi, etc.</li>
+                    <li><strong>Teaching computers to "know" a language</strong></li>
+                </ul>
+            </section>
+
+            <!-- Applications Section -->
+            <section class="center">
+                <h1>"Knowing" a language leads to exciting applications</h1>
+            </section>
+
+            <!-- Text Classification -->
+            <section>
+                <h2>Text Classification</h2>
+                <ul>
+                    <li>spam / not spam</li>
+                    <li>priority level</li>
+                    <li>category</li>
+                </ul>
+                <p class="small">Example: Gmail inbox categories (Primary, Social, Promotions, Updates)</p>
+            </section>
+
+            <!-- Text Completion -->
+            <section>
+                <h2>Text Completion</h2>
+                <p class="small">Example: Gmail's Smart Compose feature</p>
+            </section>
+
+            <!-- Machine Translation -->
+            <section>
+                <h2>Machine Translation</h2>
+                <p class="small">Example: Google Translate</p>
+            </section>
+
+            <!-- Personal Assistants -->
+            <section>
+                <h2>Personal Assistants</h2>
+                <p class="small">Examples: Siri, Google Assistant, Alexa</p>
+                <ul>
+                    <li>Request to Siri</li>
+                    <li>Response from Siri</li>
+                </ul>
+            </section>
+
+            <!-- Search -->
+            <section>
+                <h2>Search</h2>
+                <p class="small">Example: Google search with featured snippets</p>
+            </section>
+
+            <!-- Beyond the Internet -->
+            <section>
+                <h2>Beyond the Internet</h2>
+                <p><strong>883.7 million</strong> physician visits per year</p>
+                <p>≈ <strong>883.7 million</strong> medical notes per year</p>
+                <p>= <strong>2.42 million</strong> notes <span class="red">per day</span></p>
+                <p class="small">Source: <a href="https://www.cdc.gov/nchs/fastats/physician-visits.htm">CDC</a></p>
+            </section>
+
+            <!-- Transparency and Ethics -->
+            <section>
+                <h2>Language source → Decisions</h2>
+                <table style="width: 100%; font-size: 0.8em;">
+                    <tr>
+                        <td>Medical notes</td>
+                        <td>Medical diagnosis</td>
+                    </tr>
+                    <tr>
+                        <td>Resumes</td>
+                        <td>Hiring/screening</td>
+                    </tr>
+                    <tr>
+                        <td>Arrest narratives</td>
+                        <td>Bailing/sentencing</td>
+                    </tr>
+                    <tr>
+                        <td>Loan applications</td>
+                        <td>Approval/rejection</td>
+                    </tr>
+                </table>
+                <h3 class="red" style="text-align: center; margin-top: 50px;">Transparency<br>Ethics</h3>
+            </section>
+
+            <!-- What does it mean to "know" a language? -->
+            <section class="center">
+                <h2>What does it mean to "know" a language?</h2>
+            </section>
+
+            <!-- Analysis and Generation -->
+            <section>
+                <h2>Analysis and generation of language</h2>
+                <ul>
+                    <li><strong>Analysis:</strong> NL → ℛ</li>
+                    <li><strong>Generation:</strong> ℛ → NL</li>
+                </ul>
+                <h3 style="text-align: center; margin-top: 80px;">But what is ℛ?</h3>
+            </section>
+
+            <!-- A Linguistics View -->
+            <section>
+                <h2>A linguistics view</h2>
+                <ul>
+                    <li>Phonology</li>
+                    <li>Morphology</li>
+                    <li>Syntax</li>
+                    <li>Semantics</li>
+                    <li>Pragmatics</li>
+                </ul>
+            </section>
+
+            <!-- Syntax -->
+            <section>
+                <h2>Syntax</h2>
+                <p><em>The set of rules, principles, and processes that govern the structure of sentences.</em></p>
+            </section>
+
+            <!-- Part-of-Speech Tagging -->
+            <section>
+                <h2>Part-of-Speech Tagging</h2>
+                <pre style="font-size: 1.2em;">
+DT  NN   VBD   IN  DT  NN
+the girl walked to  the park
+</pre>
+                <p class="small">
+                    <strong>Key:</strong><br>
+                    DT = determiner, NN = noun, VBD = verb (past tense), IN = preposition
+                </p>
+            </section>
+
+            <!-- Constituency Parsing -->
+            <section>
+                <h2>Constituency Parsing</h2>
+                <p class="small">Tree structure showing sentence composition (S, NP, VP, PP)</p>
+            </section>
+
+            <!-- Dependency Parsing -->
+            <section>
+                <h2>Dependency Parsing</h2>
+                <p class="small">
+                    <strong>Key:</strong><br>
+                    DET = determiner, NSUBJ = nominal subject, ROOT = root of the sentence,<br>
+                    PREP = prepositional modifier, POBJ = object of a preposition
+                </p>
+            </section>
+
+            <!-- Semantics -->
+            <section>
+                <h2>Semantics</h2>
+                <p><em>Meaning at the levels of words, phrases, sentences, or larger units of discourse.</em></p>
+            </section>
+
+            <!-- Semantic Role Labeling -->
+            <section>
+                <h2>Semantic Role Labeling</h2>
+                <pre>yesterday at the park the man gave crumbs to the birds</pre>
+                <p class="small">
+                    ARG0 = usually agent<br>
+                    ARG1 = typically patient or theme<br>
+                    ARG2 = often beneficiary
+                </p>
+            </section>
+
+            <!-- Coreference Resolution -->
+            <section>
+                <h2>Coreference Resolution</h2>
+                <p><em>The boy threw some bread to a group of birds. They fought over it as he watched.</em></p>
+                <ul class="small">
+                    <li>Cluster 0: a group of birds, They</li>
+                    <li>Cluster 1: some bread, it</li>
+                    <li>Cluster 2: The boy, he</li>
+                </ul>
+            </section>
+
+            <!-- Winograd Schema -->
+            <section>
+                <h2>Winograd Schema Coreference Resolution</h2>
+                <p>The man couldn't lift his son because <strong>he</strong> was so weak.</p>
+                <p class="small">→ "he" refers to <span class="blue">man</span></p>
+                <br>
+                <p>The man couldn't lift his son because <strong>he</strong> was so heavy.</p>
+                <p class="small">→ "he" refers to <span class="blue">son</span></p>
+            </section>
+
+            <!-- Natural Language Inference -->
+            <section>
+                <h2>Natural Language Inference</h2>
+                <p><strong>Sentence A:</strong> Yesterday's game was canceled because of the heavy rains.</p>
+                <table style="width: 100%; margin-top: 30px; font-size: 0.9em;">
+                    <tr>
+                        <th>Sentence B</th>
+                        <th>Relationship</th>
+                    </tr>
+                    <tr>
+                        <td>It rained yesterday.</td>
+                        <td>A <span class="green">entails</span> B</td>
+                    </tr>
+                    <tr>
+                        <td>It didn't rain yesterday.</td>
+                        <td>B <span class="red">contradicts</span> A</td>
+                    </tr>
+                    <tr>
+                        <td>I cleaned my basement.</td>
+                        <td>A and B are <span class="blue">neutral</span></td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Reading Comprehension -->
+            <section>
+                <h2>Reading Comprehension Question Answering</h2>
+                <p class="small" style="font-size: 0.6em;">
+                    Once there was a boy named Fritz who loved to draw. He drew everything. In the morning, he drew a picture of his cereal with milk. His papa said, "Don't draw your cereal. Eat it!"
+                    After school, Fritz drew a picture of his bicycle. His uncle said, "Don't draw your bicycle. Ride it!"
+                    ...
+                </p>
+                <p><strong>What did Fritz draw first?</strong></p>
+                <ul style="font-size: 0.8em;">
+                    <li>A) the toothpaste</li>
+                    <li>B) his mama</li>
+                    <li>C) cereal and milk ✓</li>
+                    <li>D) his bicycle</li>
+                </ul>
+                <p class="small">Example from MCTest (Richardson et al., 2013)</p>
+            </section>
+
+            <!-- Pragmatics -->
+            <section>
+                <h2>Pragmatics</h2>
+                <ul>
+                    <li>How context contributes to meaning</li>
+                    <li>Understanding of the social aspects of language</li>
+                </ul>
+                <br>
+                <p><strong>Example:</strong> "Can you pass me the salt?"</p>
+            </section>
+
+            <!-- Reference Games -->
+            <section>
+                <h2>Reference games</h2>
+                <p><strong>Speaker.</strong> Imagine you are talking to someone and want to refer to the middle object. Would you say "blue" or "circle"?</p>
+                <p><strong>Listener.</strong> Someone uses the word "blue" to refer to one of these objects. Which object are they talking about?</p>
+                <p class="small">Wittgenstein, 1953; Frank and Goodman, 2012</p>
+            </section>
+
+            <!-- Language can be hard for humans -->
+            <section>
+                <h2>Language can be hard for humans as well!</h2>
+                <p class="small">
+                    <strong>Information solicitation:</strong><br>
+                    Physicians spend a lot of time producing notes (1-2 hours for every hour with patients)
+                </p>
+            </section>
+
+            <!-- Grounded Language -->
+            <section>
+                <h2>Grounded language/multimodal research</h2>
+                <p class="small">Example: Understanding cartoons and humor</p>
+            </section>
+
+            <!-- Why is NLP hard? -->
+            <section>
+                <h2>Why is NLP hard?</h2>
+                <div style="display: flex; justify-content: space-around; margin-top: 50px;">
+                    <div>
+                        <h3 class="blue">Ambiguity</h3>
+                        <p>one form can have multiple meanings</p>
+                    </div>
+                    <div>
+                        <h3 class="red">Variability</h3>
+                        <p>multiple forms can have the same meaning</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wikipedia Example -->
+            <section>
+                <h2>Example: Hyperlinks in Wikipedia</h2>
+                <p><strong class="blue">Ambiguity:</strong> "bar" can link to:</p>
+                <ul class="small">
+                    <li>bar (law)</li>
+                    <li>bar (establishment)</li>
+                    <li>bar association</li>
+                    <li>bar (unit)</li>
+                    <li>medal bar</li>
+                    <li>bar (music)</li>
+                </ul>
+                <p><strong class="red">Variability:</strong> "bar (establishment)" can be referenced as:</p>
+                <ul class="small">
+                    <li>bar, bars, saloon, saloons, lounge, pub, sports bar...</li>
+                </ul>
+            </section>
+
+            <!-- Why is NLP hard - continued -->
+            <section>
+                <h2>Why is NLP hard?</h2>
+                <ul>
+                    <li><strong>Analysis:</strong> NL → ℛ</li>
+                    <li><strong>Generation:</strong> ℛ → NL</li>
+                    <li>ℛ can be a theorized construct, not directly observable.</li>
+                </ul>
+            </section>
+
+            <!-- Understanding language is understanding people -->
+            <section class="center">
+                <h2>Understanding language is to understand people</h2>
+                <br>
+                <ul style="font-size: 1.2em;">
+                    <li>People are complicated.</li>
+                    <li>Language evolves as people evolve.</li>
+                </ul>
+            </section>
+
+            <!-- Social aspects example -->
+            <section>
+                <h2>Which tweet got shared by more people?</h2>
+                <p class="small" style="font-size: 0.6em;">
+                    <strong>Tweet 1:</strong> #DYK the majority of teens abusing prescription drugs get them from family, friends & the home medicine cabinet? On 4/28 take back your unused meds to keep your kids safe. Visit DEATakeBack.com for a collection site near you. #TakeBackDay
+                </p>
+                <p class="small" style="font-size: 0.6em;">
+                    <strong>Tweet 2:</strong> Prescription drugs can be just as dangerous as street drugs when taken without a prescription or a doctor's supervision. Proper disposal of unused drugs saves lives. Visit DEATakeBack.com for a collection site near you. #TakeBackDay
+                </p>
+                <p><strong>Answer:</strong> Tweet 1 ✓</p>
+                <p class="small">Tan, Pang, and Lee 2014</p>
+            </section>
+
+            <!-- Roadmap -->
+            <section>
+                <h2>Roadmap</h2>
+                <ul>
+                    <li>Words</li>
+                    <li>Classification</li>
+                    <li>Language modeling and neural language models</li>
+                    <li>Word embeddings</li>
+                    <li>BERT</li>
+                    <li>POS, syntax, and parsing</li>
+                    <li>Dependency syntax, semantic parsing, question answering</li>
+                    <li>Topic modeling, interpretability</li>
+                    <li>NLP and CSS</li>
+                    <li>Multimodal research</li>
+                    <li>Ethics</li>
+                </ul>
+            </section>
+
+            <!-- Administrivia Section -->
+            <section class="center">
+                <h1>Administrivia</h1>
+            </section>
+
+            <!-- Course Website -->
+            <section>
+                <h2>Course website</h2>
+                <p>Everything is going to be on Canvas:</p>
+                <p><a href="https://canvas.uchicago.edu/courses/39689">https://canvas.uchicago.edu/courses/39689</a></p>
+                <p>Use Ed for discussions:</p>
+                <p><a href="https://edstem.org/us/courses/16300/discussion/">https://edstem.org/us/courses/16300/discussion/</a></p>
+                <h3 style="margin-top: 50px;">Read the syllabus</h3>
+            </section>
+
+            <!-- Office Hours -->
+            <section>
+                <h2>Office hours</h2>
+                <ul>
+                    <li><strong>Chenhao's Office Hours:</strong> 11:30-12:30pm CST on Tuesday and Thursday</li>
+                    <li><strong>Mourad's office hour:</strong> 4-5pm CST on Tuesday</li>
+                    <li><strong>Chih-Chan's office hour:</strong> 5-6pm CST on Thursday</li>
+                </ul>
+            </section>
+
+            <!-- Tutorials -->
+            <section>
+                <h2>Tutorials (experimental idea)</h2>
+                <ul>
+                    <li>Jan 21 (numpy and pytorch)</li>
+                    <li>Jan 28 (pytorch-lightning)</li>
+                    <li>10 am or 11am? See lecture 1 quiz.</li>
+                </ul>
+            </section>
+
+            <!-- Readings -->
+            <section>
+                <h2>Readings</h2>
+                <ul>
+                    <li>Slides</li>
+                    <li>Main reference text: Jurafsky and Martin (2020):<br>
+                        <a href="https://web.stanford.edu/~jurafsky/slp3/">https://web.stanford.edu/~jurafsky/slp3/</a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Evaluation -->
+            <section>
+                <h2>Evaluation</h2>
+                <ul>
+                    <li>Three assignments (36%)</li>
+                    <li>Quizzes (18%)</li>
+                    <li>Project, in a team of 2-3 (40%)</li>
+                    <li>Participation (6%)</li>
+                </ul>
+            </section>
+
+            <!-- Project -->
+            <section>
+                <h2>Project</h2>
+                <ul>
+                    <li>A list of project topics is available</li>
+                    <li>Choose a topic and form a team by week 3</li>
+                    <li>Literature review by week 5</li>
+                    <li>Progress report by week 7</li>
+                    <li>Final presentation/report on Week 10</li>
+                </ul>
+                <p class="small"><a href="https://docs.google.com/document/d/1HMxbK22BZaztYogS-ODDyLQhFuFOITqaA36wX34FlUE/edit">Project topics document</a></p>
+            </section>
+
+            <!-- Project Topics -->
+            <section>
+                <h2>Project topics (work in progress)</h2>
+                <ul>
+                    <li>Natural language understanding</li>
+                    <li>Natural language generation</li>
+                    <li>Computational social science</li>
+                    <li>Interpretability</li>
+                </ul>
+            </section>
+
+            <!-- Questions -->
+            <section class="center">
+                <h1>Questions?</h1>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            controls: true,
+            progress: true,
+            center: false,
+            keyboard: true,
+            overview: true,
+            touch: true
+        });
+    </script>
+</body>
+</html>
