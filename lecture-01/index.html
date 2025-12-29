@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecture 1: Introduction | CMSC 25700/35100 NLP</title>
+    <meta name="description" content="Introduction to Natural Language Processing course at University of Chicago. Topics include word vectors, transformers, LLMs, and AI alignment.">
+    <meta name="author" content="Chenhao Tan">
+    <meta name="keywords" content="NLP, Natural Language Processing, Machine Learning, Deep Learning, Transformers, LLMs, University of Chicago">
+    <meta property="og:title" content="Lecture 1: Introduction | CMSC 25700/35100 NLP">
+    <meta property="og:description" content="Introduction to Natural Language Processing course at University of Chicago.">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
     <!-- UChicago custom theme -->
     <link rel="stylesheet" href="../assets/css/uchicago-theme.css">
@@ -35,9 +41,9 @@
                         - Associate Professor of Computer Science and Data Science
                         - Research interest: Human-centered AI, Communication & Intelligence, AI &
                         Scientific Discovery, AI alignment 
-                        - Chicago Human+AI Lab ([chicagohai.github.io](https://chicagohai.github.io))
+                        - [Chicago Human+AI Lab](https://chicagohai.github.io)
                         - [UChicago/TTIC Communication & Intelligence](https://ci.cs.uchicago.edu)
-                    - **TAs:** Qirun Dai, Darin Keng, Dang Nguyen
+                    - **TAs:** [Qirun Dai](https://qrdai.github.io/), Darin Keng, [Dang Nguyen](https://dangng2004.github.io/)
                 </textarea>
             </section>
 
@@ -45,7 +51,7 @@
                 <textarea data-template>
                     ## Lecture logistics
 
-                    - No laptop unless there is a laptop emoji in the header
+                    - No laptop unless there is a laptop emoji in the header 💻
                     - Lecture itself lasts for about 60 minutes, leaving 15 mintues for discussion
                     (of course, you can ask many questions during the lecture to frontload 15
                     minutes)
@@ -56,7 +62,6 @@
                 <textarea data-template>
                     ## Today's agenda
                     * What is Natural Language Processing (NLP)?
-                    * Roadmap of the course
                     * AI and education/research
                     * Administrivia
                 </textarea>
@@ -67,7 +72,6 @@
                     <textarea data-template>
                         ## Today's agenda
                         * What is Natural Language Processing (NLP)?
-                        * <span style="color: #767676;">Roadmap of the course</span>
                         * <span style="color: #767676;">AI and education/research</span>
                         * <span style="color: #767676;">Administrivia</span>
                     </textarea>
@@ -77,98 +81,226 @@
                         What is your favorite application with current AI models (e.g., ChatGPT, Claude, etc)?
                     </textarea>
                 </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        All of these applications involve NLP!
+                    </textarea>
+                </section>
+                <section>
+                    <h2>Examples of NLP over time</h2>
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+                        <img src="hall_et_al_increase.png" alt="Increase" style="max-height: 500px;">
+                        <img src="hall_et_al_decrease.png" alt="Decrease" style="max-height: 500px;">
+                    </div>
+                    <p style="font-size: 0.5em; margin-top: 20px;">
+                        <a href="https://aclanthology.org/D08-1038/">Studying the History of Ideas Using Topic Models</a><br>
+                        David Hall, Daniel Jurafsky, Christopher D. Manning
+                    </p>
+                </section>
+                <section>
+                    <h2>Examples of NLP over time: Parsing</h2>
+                    <img src="parsing.png" alt="Parsing" style="width: 80%;">
+                </section>
+                <section>
+                    <h2>Examples of NLP over time: Question Answering</h2>
+                    <p style="font-size: 0.8em; text-align: left;">
+                        Once there was a boy named Fritz who loved to draw. He drew everything. In the morning, he drew a picture of his cereal with milk. His papa said, "Don't draw your cereal. Eat it!"
+                        After school, Fritz drew a picture of his bicycle. His uncle said, "Don't draw your bicycle. Ride it!"
+                        ...
+                    </p>
+                    <p><strong>What did Fritz draw first?</strong></p>
+                    <p style="font-size: 0.8em; text-align: left;">
+                        A) the toothpaste<br>
+                        B) his mama<br>
+                        C) cereal and milk<br>
+                        D) his bicycle
+                    </p>
+                    <p style="font-size: 0.5em; color: #767676;">Example from MCTest (Richardson et al., 2013)</p>
+                </section>
+                <section>
+                    <h2>Examples of NLP over time: Modern benchmarks</h2>
+                    <iframe src="https://www.tbench.ai/registry/terminal-bench-core/head/build-linux-kernel-qemu" width="100%" height="600" frameborder="0"></iframe>
+                </section>
+                <section data-markdown>
+                    ## NLP has gone a long way!
+                </section>
+                <section data-markdown>
+                    ## The first goal of this course is to understand the fundamentals and building blocks towards these advances.
+                </section>
             </section>
 
-            <section data-markdown>
-                <textarea data-template>
-                    ## What do you think is NLP?
-                </textarea>
-            </section>
+            
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Today's agenda
+                        * <span style="color: #767676;">What is Natural Language Processing (NLP)?</span>
+                        * AI and education/research
+                        * <span style="color: #767676;">Administrivia</span>
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## AI is fundamentally changing education and research.
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Agency > Intelligence
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                    ## Roadmap
+                    - Week 1: Introduction & Word vectors
+                    - Week 2: Word vectors & text Classification
+                    - Week 3: N-gram Language modeling, neural language models
+                    - Week 4: Transformers & Attention
+                    - Week 5: Benchmark & evaluation & midterm
+                    - Week 6: decoding LLMs & working with LLMs: prompting
+                    - Week 7: post-training overview & agents & reasoning
+                    - Week 8: Research in NLP
+                    - Week 9: alignment & safety & Final project presentation
+                    - Week 10: final exam
+                    </textarea>
+                </section>
+                <section>
+                    <h2>Roadmap Comparison</h2>
+                    <div style="display: flex; justify-content: space-between; gap: 40px; font-size: 0.5em;">
+                        <div style="flex: 1;">
+                            <h3>Our Roadmap</h3>
+                            <ol>
+                                <li>Introduction & Word vectors</li>
+                                <li>Word vectors & text Classification</li>
+                                <li>N-gram Language modeling, neural LMs</li>
+                                <li>Transformers & Attention</li>
+                                <li>Benchmark & evaluation & midterm</li>
+                                <li>Decoding LLMs & prompting</li>
+                                <li>Post-training, agents & reasoning</li>
+                                <li>Research in NLP</li>
+                                <li>Alignment & safety & presentations</li>
+                            </ol>
+                        </div>
+                        <div style="flex: 1;">
+                            <h3>Generated by ChatGPT</h3>
+                            <ol>
+                                <li>Introduction to NLP</li>
+                                <li>Text Preprocessing & Tokenization</li>
+                                <li>Language Modeling (n-grams)</li>
+                                <li>Word Embeddings (Word2Vec, GloVe)</li>
+                                <li>Sequence Models (RNNs, LSTMs)</li>
+                                <li>Neural Networks & Deep Learning</li>
+                                <li>Attention & Transformer Models</li>
+                                <li>Pretrained Models (BERT, GPT)</li>
+                                <li>Information Extraction & NER</li>
+                                <li>Machine Translation & Seq2Seq</li>
+                                <li>Text Generation & Summarization</li>
+                                <li>Advanced Topics / Projects</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
 
-            <section data-markdown>
-                <textarea data-template>
-                    ## 
-                </textarea>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## The second goal is to learn how to use AI effectively in education and research.
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Project
+
+                        We will use https://hypogenic.ai/ for project ideation.
+                        - Vote every week on ideas (please log in with your UChicago email)
+                        - You are welcome to submit your own ideas as well
+                        - You can submit private ideas as well if you have a strong argument for that.
+                        
+                        You will need to 
+                        - commit to an idea by Week 5 and submit a one-page proposal.
+                        - Weekly blogs with at least a one-page update (Weeks 7-9)
+                        - Final report on Week 10
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Participation
+
+                        Participation takes a small amount of points in your final grade, so feel
+                        free to skip lectures if you learn effectively that way.
+
+                        However, if you are here, this time is best used if we are all fully engaged.
+
+                    </textarea>
+                </section>
+            </section>
+            
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Today's agenda
+                        * <span style="color: #767676;">What is Natural Language Processing (NLP)?</span>
+                        * <span style="color: #767676;">AI and education/research</span>
+                        * Administrivia
+                    </textarea>
+                </section>
+            
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Course website
+
+                        Everything is going to be on Canvas:
+                        [canvas.uchicago.edu/courses/39689](https://canvas.uchicago.edu/courses/39689)
+
+                        Use Ed for discussions:
+                        [edstem.org/us/courses/16300/discussion/](https://edstem.org/us/courses/16300/discussion/)
+
+                        ### Read the syllabus
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Office hours
+
+                        - **Chenhao's Office Hours:** TBD
+                        - **Qirun's office hour:** 4-5pm CST on Tuesday
+                        - **Darin's office hour:** 5-6pm CST on Thursday
+                        - **Dang's office hour:** 3-4pm CST on Friday
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Readings
+
+                        - Slides
+                        - Main reference text: Jurafsky and Martin (2020):
+                        [web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
+                        - Additional papers and blog posts as announced
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Evaluation
+
+                        - Participation (5%)
+                        - Four assignments (40%)
+                        - Exams (25%)
+                        - Project, in a team of 2-3 (30%)
+                    </textarea>
+                </section>
+
             </section>
 
             
 
-            <section data-markdown>
-                <textarea data-template>
-                    ## Roadmap
+            
 
-          
-                </textarea>
-            </section>
 
-            <section data-markdown>
-                <textarea data-template>
-                    # Administrivia
-                </textarea>
-            </section>
-
-            <section data-markdown>
-                <textarea data-template>
-                    ## Course website
-
-                    Everything is going to be on Canvas:
-                    [canvas.uchicago.edu/courses/39689](https://canvas.uchicago.edu/courses/39689)
-
-                    Use Ed for discussions:
-                    [edstem.org/us/courses/16300/discussion/](https://edstem.org/us/courses/16300/discussion/)
-
-                    ### Read the syllabus
-                </textarea>
-            </section>
-
-            <section data-markdown>
-                <textarea data-template>
-                    ## Office hours
-
-                    - **Chenhao's Office Hours:** TBD
-                    - **Mourad's office hour:** 4-5pm CST on Tuesday
-                    - **Chih-Chan's office hour:** 5-6pm CST on Thursday
-                </textarea>
-            </section>
 
    
 
-            <section data-markdown>
-                <textarea data-template>
-                    ## Readings
-
-                    - Slides
-                    - Main reference text: Jurafsky and Martin (2020):
-                      [web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
-                    - Additional papers and blog posts as announced
-                </textarea>
-            </section>
-
-            <section data-markdown>
-                <textarea data-template>
-                    ## Evaluation
-
-                    - Participation (5%)
-                    - Four assignments (40%)
-                    - Exams (25%)
-                    - Project, in a team of 2-3 (30%)
-                </textarea>
-            </section>
-
-            <section data-markdown>
-                <textarea data-template>
-                    ## Project
-
-                    We will use https://hypogenic.ai/ for project ideation.
-                    - Vote every week on ideas (please log in with your UChicago email)
-                    - You are welcome to submit your own ideas as well
-                    - You can submit private ideas as well if you have a strong argument for that.
-                    You will need to 
-                    - Weekly blogs with at least a one-page update (Weeks 7-9)
-                    - Final report on Week 10
-
-                </textarea>
-            </section>
 
             <section data-markdown>
                 <textarea data-template>
