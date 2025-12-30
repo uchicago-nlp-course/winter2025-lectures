@@ -64,7 +64,18 @@
                         - "the" is rank 1, most frequent
                         - Most words are extremely rare ("long tail")
 
-                        TODO: add plot
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Zipf's Law
+
+                        Frequency of a word is inversely proportional to its rank in the word frequency list
+
+                        <img src="zipf.png" style="max-width: 40%; display: block; margin: 0 auto;">
+
+                        <p class="citation">Power-law distributions in empirical data. Aaron Clauset, Cosma Rohilla Shalizi, M. E. J. Newman.</p>
                     </textarea>
                 </section>
 
@@ -332,10 +343,6 @@
                         Larger windows capture more topical similarity; smaller windows capture more syntactic similarity.
                     </textarea>
                 </section>
-            </section>
-
-            <!-- Similarity Measures Section -->
-            <section>
                 <section data-markdown>
                     <textarea data-template>
                         ## Computing Similarity
@@ -393,11 +400,7 @@
                         Much better than dot product!
                     </textarea>
                 </section>
-            </section>
-
-            <!-- Improving Counts Section -->
-            <section>
-                <section data-markdown>
+                 <section data-markdown>
                     <textarea data-template>
                         ## Improving Counts
 
@@ -421,8 +424,20 @@
                 </section>
             </section>
 
-            <!-- SVD Section -->
+            <!-- LSA Section -->
             <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Latent Semantic Analysis (LSA)
+
+                        Apply SVD to document-term matrix:
+                        - Rows: documents
+                        - Columns: words
+                        - Entries: tf-idf weights
+
+                    </textarea>
+                </section>
+
                 <section data-markdown>
                     <textarea data-template>
                         ## From Sparse to Dense Vectors
@@ -443,10 +458,10 @@
 
                         $$\mathbf{M} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^\top$$
 
-                        - $\mathbf{M}$: original matrix (words $\times$ contexts)
-                        - $\mathbf{U}$: left singular vectors (words $\times$ k)
-                        - $\mathbf{\Sigma}$: diagonal matrix of singular values (k $\times$ k)
-                        - $\mathbf{V}^\top$: right singular vectors (k $\times$ contexts)
+                        - $\mathbf{M}$: original matrix (docs $\times$ words)
+                        - $\mathbf{U}$: left singular vectors (docs $\times$ min(docs, words))
+                        - $\mathbf{\Sigma}$: diagonal matrix of singular values (min(docs, words) $\times$ min(docs, words))
+                        - $\mathbf{V}^\top$: right singular vectors (min(docs, words) $\times$ words)
                     </textarea>
                 </section>
 
@@ -460,25 +475,15 @@
 
                         - Reduces dimensionality from |V| to k (typically 100-300)
                         - Best rank-k approximation (minimizes reconstruction error)
-                        - Word vectors: rows of $\mathbf{U}_k$ (or $\mathbf{U}_k \mathbf{\Sigma}_k$)
+                        - Word vectors: columns of $\mathbf{V}_k$ 
                     </textarea>
                 </section>
 
-                <section data-markdown>
-                    <textarea data-template>
-                        ## Latent Semantic Analysis (LSA)
-
-                        Apply SVD to document-term matrix:
-                        - Rows: documents
-                        - Columns: words
-                        - Entries: tf-idf weights
-
-                    </textarea>
-                </section>
+                
 
                 <section data-markdown>
                     <textarea data-template>
-                        ## Why Does SVD Help?
+                        ## LSA Word Vectors
 
                         - Captures latent semantic structure
                         - Smooths over sparsity in the original counts
