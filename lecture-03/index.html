@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 3: Text Classification | CMSC 25700/35100 NLP</title>
+    <meta name="description" content="Text Classification in Natural Language Processing. Topics include feature engineering, logistic regression, neural classification, and data annotation.">
+    <meta name="author" content="Chenhao Tan">
+    <meta name="keywords" content="NLP, Natural Language Processing, Text Classification, Feature Engineering, Logistic Regression, Neural Networks, University of Chicago">
+    <meta property="og:title" content="Lecture 3: Text Classification | CMSC 25700/35100 NLP">
+    <meta property="og:description" content="Text Classification in Natural Language Processing at University of Chicago.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="../assets/css/uchicago-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section data-markdown>
+                <textarea data-template>
+                    # CMSC 25700/35100:
+                    ## Natural Language Processing
+
+                    ## Lecture 3: Text Classification
+
+                    <p style="text-align: center;">
+                    <strong>Chenhao Tan</strong><br/>
+                    University of Chicago<br/>
+                    @ChenhaoTan, chenhao@uchicago.edu
+                    </p>
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ## Lecture Plan
+
+                    1. Classification Overview
+                    2. Probabilistic Classification
+                    3. Logistic Regression with Feature Engineering
+                    4. Neural Approaches
+                    5. Data Annotation
+                </textarea>
+            </section>
+
+            <!-- Classification Overview Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Text Classification
+
+                        **Task**: Given an input text, label it with a category from a fixed set.
+
+                        | Input | Output |
+                        |-------|--------|
+                        | email | spam / not spam |
+                        | review | positive / negative sentiment |
+                        | article | politics / sports / science / etc. |
+                        | tweet | ok / violates guidelines |
+                        | argument | persuasive or not |
+                    </textarea>
+                </section>
+
+                <section>
+                    <h2>Binary Sentiment Classification</h2>
+                    <p>A sequence of words (sentence or document) → sentiment label</p>
+                    <blockquote style="width: 100%; text-align: left; font-size: 0.85em;">
+                        <strong>A spectacular mash of E.T, X-Files and 80's.</strong><br><br>
+                        With its amazing 80s atmosphere and creepy X-files meets E.T feel this show is set to impress. Within its first 8 minutes of run time I could tell I had found something special here in [Guess which show?].<br><br>
+                        Its intriguing story gives information at a great pace and I never felt myself getting confused or bored and there were enough twists or turns to keep me interested. This also had some rather great horror sequences and their use of lights flickering while yes a common trope fit so well in to the story I was on the edge of my seat every time the crackle of electricity shot through my speakers and the lights flickered.
+                    </blockquote>
+                    <p class="citation"><a href="https://arxiv.org/abs/cs/0409058">A Sentimental Education: Sentiment Analysis Using Subjectivity Summarization Based on Minimum Cuts.</a> Pang & Lee (2004)</p>
+                </section>
+
+                <section>
+                    <h2>Binary Sentiment Classification</h2>
+                    <p>A sequence of words (sentence or document) → sentiment label</p>
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+                        <img src="images/banana-review-1.png" style="max-width: 45%; max-height: 450px;">
+                        <img src="images/banana-review-2.png" style="max-width: 45%; max-height: 450px;">
+                    </div>
+                    <p class="citation"><a href="https://arxiv.org/abs/cs/0409058">A Sentimental Education: Sentiment Analysis Using Subjectivity Summarization Based on Minimum Cuts.</a> Pang & Lee (2004)</p>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Natural Language Inference (NLI)
+
+                        **Task**: Given two sentences, determine their relationship.
+
+                        **Premise**: Yesterday's game was canceled because of the heavy rains.
+
+                        | Hypothesis | Relationship |
+                        |------------|--------------|
+                        | It rained yesterday. | Entailment |
+                        | It didn't rain yesterday. | Contradiction |
+                        | I cleaned my basement. | Neutral |
+
+                        Input format: `[Premise] <SEP> [Hypothesis]` → Class
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Reading Comprehension as Classification
+
+                        **Passage**: Once there was a boy named Fritz who loved to draw. In the morning, he drew a picture of his cereal with milk...
+
+                        **Question**: What did Fritz draw first?
+                        - A) the toothpaste
+                        - B) his mama
+                        - C) cereal and milk ✓
+                        - D) his bicycle
+
+                        Input: `[passage] <SEP> [option A] <SEP> [option B] ...` → A/B/C/D
+
+                        <p class="citation">MCTest (Richardson et al., 2013)</p>
+                    </textarea>
+                </section>
+
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Classification Setup
+
+                        **Supervised learning**: Training data consists of samples $\\{x_i, y_i\\}_{i=1}^{N}$
+
+                        - $x_i$: textual input
+                        - $y_i$: classification label
+
+                        **Classifier**: A function from inputs $x$ to labels $y$
+                        - Assign a score to each label, choose highest-scoring one:
+
+                        $$\hat{y} = \arg\max_y \text{score}(x, y, w)$$
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Modeling, Inference, Learning
+
+                        Three key components:
+
+                        - **Modeling**: Define score function $\text{score}(x, y, \theta)$
+                        - **Inference**: Solve $\hat{y} = \arg\max_y \text{score}(x, y, \theta)$
+                        - **Learning**: Choose parameters $\theta$
+                        
+                    </textarea>
+                </section>
+            </section>
+
+            <!-- Probabilistic Classification Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Probabilistic Classification
+
+                        Instead of just predicting a label, output a **probability distribution**.
+
+                        $$P(y | x)$$
+
+                        Benefits:
+                        - Enable principled learning via maximum likelihood
+                        - Quantify uncertainty in predictions
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## From Scores to Probabilities
+
+                        Given a score function $\text{score}(x, y; \theta)$, convert to probabilities:
+
+                        **Binary** (sigmoid):
+                        $$P(y=1|x; \theta) = \sigma(s) = \frac{1}{1 + e^{-s}}$$
+
+                        **Multi-class** (softmax):
+                        $$P(y|x; \theta) = \frac{\exp(\text{score}(x, y; \theta))}{\sum_{y'} \exp(\text{score}(x, y'; \theta))}$$
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Cross-Entropy Loss
+
+                        **Learning objective**: Minimize cross-entropy loss
+
+                        $$H(p, q) = -\sum_{c=1}^{C} p(c) \log q(c)$$
+
+                        With one-hot ground truth $p = [0, \ldots, 1, \ldots, 0]$:
+
+                        $$\mathcal{L} = -\log P(y^* | x)$$
+
+                        This is the **negative log-likelihood** of the correct class.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Cross-Entropy and Likelihood (Binary)
+
+                        For binary classification with $y \in \{0, 1\}$:
+
+                        $$P(y|x) = \hat{y}^y (1-\hat{y})^{1-y}$$
+
+                        where $\hat{y} = \sigma(s)$ is the predicted probability.
+
+                        **Log-likelihood**:
+                        $$\log P(y|x) = y \log \hat{y} + (1-y) \log(1-\hat{y})$$
+
+                        **Cross-entropy loss** = **Negative log-likelihood**
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Overall Loss
+
+                        For a dataset $\{(x_i, y_i)\}_{i=1}^N$:
+
+                        $$\mathcal{L}(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \log P(y_i | x_i; \theta)$$
+
+                        This is the **average negative log-likelihood**.
+
+                        Minimizing this = **Maximum Likelihood Estimation (MLE)**.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Gradient-Based Learning
+
+                        How do we minimize the loss?
+
+                        **Gradient descent**:
+                        $$\theta \leftarrow \theta - \alpha \nabla_\theta \mathcal{L}$$
+
+                        - $\alpha$: learning rate
+                        - $\nabla_\theta \mathcal{L}$: gradient of loss with respect to parameters
+
+                        In practice: **stochastic gradient descent (SGD)** on mini-batches
+                    </textarea>
+                </section>
+            </section>
+
+            <!-- Logistic Regression with Feature Engineering Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Logistic Regression
+
+                        Recall the probabilistic classification framework:
+
+                        $$P(y|x; \theta) = \frac{\exp(\text{score}(x, y; \theta))}{\sum_{y'} \exp(\text{score}(x, y'; \theta))}$$
+
+                        **Key question**: How do we define the score function?
+
+                        **Logistic regression**: Use a **linear** score function
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Logistic Regression
+
+                        **Score function** is linear in parameters:
+
+                        $$\text{score}(x, y; \mathbf{w}) = \mathbf{w}^\top \mathbf{f}(x)$$
+
+                        - $\mathbf{f}(x)$: feature vector
+                        - $\mathbf{w}$: learned weights
+
+                        For many years, linear models with hand-crafted features dominated NLP.
+                    </textarea>
+                </section>
+
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Logistic Regression
+
+                        Logistic regression is a **one-layer neural network**:
+
+                        - Input layer: feature vector $\mathbf{f}(x)$
+                        - Linear layer: $z = \mathbf{w}^\top \mathbf{f}(x)$
+                        - Activation: sigmoid $\sigma(z)$
+
+                        ```python
+                        # PyTorch
+                        model = nn.Sequential(
+                            nn.Linear(num_features, 1),
+                            nn.Sigmoid()
+                        )
+                        ```
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Features for NLP
+
+                        - NLP datasets include inputs and outputs
+                        - Features are usually **not** included
+                        - You have to **define your own features**!
+
+                        Two eras:
+                        - Since 1995: **feature engineering**
+                        - Since 2012: **representation learning**
+
+                        In this lecture, we cover both.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Bag of Words
+
+                        **Bag of Words**: Represent text by the words it contains (ignore order)
+
+                        "I love Lou Malnati's pizza. I always get the deep dish."
+
+                        → {I, love, Lou, Malnati's, pizza, always, get, the, deep, dish, ...}
+
+                        Each word becomes a **feature** for classification.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Unigram Binary Features
+
+                        Feature: $f_w(x) = \mathbb{1}[x \text{ contains } w]$
+
+                        Example: "great movie"
+
+                        | Feature | Value |
+                        |---------|-------|
+                        | $f_{\text{great}}$ | 1 |
+                        | $f_{\text{movie}}$ | 1 |
+                        | $f_{\text{bad}}$ | 0 |
+                        | ... | ... |
+
+                        Feature vector $\mathbf{f}(x) \in \{0, 1\}^{|V|}$
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Feature Templates
+
+                        | Template | Description |
+                        |----------|-------------|
+                        | Unigram binary | Does word $w$ appear? |
+                        | Unigram count | How many times does $w$ appear? |
+                        | Bigram binary | Does word pair $(w_1, w_2)$ appear? |
+                        | Bigram count | How many times does pair appear? |
+
+                        Templates are instantiated for training data to produce features.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Sparse Features
+
+                        **NLP features are sparse**:
+                        - For a given instance, most features have value 0
+                        - Feature vectors are high-dimensional but sparse
+
+                        **Contrast with ML datasets**:
+                        - Fixed-dimensional dense feature vectors
+                        - Same dimensions for all instances
+
+                        This is why in the embedding notebook, we used TfIdfVectorizer otherwise the SVD would be too slow/expensive for a dense matrix. <!-- .element: class="fragment" -->
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Feature Count Cutoffs
+
+                        **Problem**: Many features are extremely rare
+
+                        **Solution**: Only keep features that "fire" at least $k$ times in training
+
+                        - "fire" = has non-zero value for some example
+                        - Reduces model size
+                        - Prevents overfitting to rare features
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Challenge: Ambiguity
+
+                        "great" usually indicates positive sentiment:
+                        - *"It is a **great** film."* → positive
+
+                        But not always:
+                        - *"It's **not** a great movie."* → negation
+                        - *"A great **deal** of corny dialogue."* → different sense
+                        - *"A great cast can't lift this enterprise."* → mixed sentiment
+
+                        **Problem**: Single words are ambiguous without context.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Challenge: Variability
+
+                        On sentences containing "great" in Stanford Sentiment Treebank:
+                        - Accuracy if we predict positive: **69%**
+                        - But "great" only appears in **83/6911** examples
+
+                        Many other words can indicate positive sentiment!
+
+                        Need to learn from all available signal.
+                    </textarea>
+                </section>
+
+
+            </section>
+
+            <!-- Neural Approaches Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## From Features to Representations
+
+                        **Feature engineering**: Hand-craft features based on domain knowledge
+                        - Requires expertise
+                        - Limited by human imagination
+
+                        **Representation learning**: Learn features from data
+                        - Use word embeddings as input
+                        - Let the model learn useful representations
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Classification with Word Vectors
+
+                        **Idea**: Use pre-trained word embeddings instead of sparse features
+
+                        - Each word → dense vector (e.g., 300 dimensions)
+                        - Semantically similar words have similar vectors
+                        - Can generalize to unseen words!
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Deep Averaging Networks (DAN)
+
+                        For document classification, average all word embeddings:
+
+                        1. Look up embedding for each word: $e_1, e_2, \ldots, e_n$
+                        2. Average: $\bar{e} = \frac{1}{n}\sum_i e_i$
+                        3. Pass through hidden layers
+                        4. Predict class with softmax
+
+                        Also called **Neural Bag of Words (NBOW)**
+
+                        <p class="citation">Deep Unordered Composition Rivals Syntactic Methods for Text Classification. Iyyer et al. (2015)</p>
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## DAN Architecture 
+
+                        <img src="images/dan.png" style="max-width: 85%; display: block; margin: 0 auto;">
+                    </textarea>
+                </section>
+
+                <section>
+                    <h2>DAN Performance on Sentiment Analysis</h2>
+                    <img src="images/dan_sentiment.png" style="width: 45%; display: block; margin: 0 auto;">
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Linear vs Neural Classifier
+
+                        **Linear classifier** (logistic regression):
+                        - Parameters: only $W$
+                        - **Linear decision boundary**
+
+                        **Neural classifier**:
+                        - Parameters: $W$ **and** word embeddings
+                        - **Non-linear decision boundary**
+                        - Can learn task-specific representations
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Training Neural Networks
+
+                        It is the same as logistic regression because logistic regression is a special case of neural networks!
+
+                        **Forward pass**: Compute predictions
+
+                        **Loss**: Cross-entropy (same as logistic regression!)
+
+                        $$\mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} \log P(y_i | x_i; \theta)$$
+
+                        **Backward pass**: Compute gradients via backpropagation
+
+                        **Update**: $\theta \leftarrow \theta - \alpha \nabla_\theta \mathcal{L}$
+                    </textarea>
+                </section>
+            </section>
+
+            <!-- Data Annotation Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Data is Power
+
+                        - Text classification is solved with **data-driven methods**
+                        - Supervised learning needs **labeled datasets** (ground truth)
+                        - NLP datasets include inputs (text) and outputs (annotations)
+
+                        **What is the usual bottleneck?**
+
+                        Getting high-quality data! <!-- .element: class="fragment" -->
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Sources of Labels
+
+                        Two main approaches:
+
+                        1. **Annotation**: Humans label the data
+                        2. **Observing the world**: Natural "annotation" from the web
+
+                        Labels collected from humans are called the **gold standard**.
+                    </textarea>
+                </section>
+
+                <section>
+                    <h2>Annotation: Paid Experts</h2>
+                    <div style="display: flex; align-items: flex-start; gap: 40px;">
+                        <div style="flex: 1; text-align: left;">
+                            <p><strong>Traditional approach</strong>:</p>
+                            <ul>
+                                <li>Researchers write annotation guidelines</li>
+                                <li>Recruit and pay annotators (often linguists)</li>
+                                <li>More consistent annotations, but costly to scale</li>
+                            </ul>
+                            <p><strong>Example</strong>: Penn Treebank (1993)</p>
+                            <ul>
+                                <li>1 million words, mostly Wall Street Journal</li>
+                                <li>Annotated with POS tags and syntactic parse trees</li>
+                            </ul>
+                        </div>
+                        <div style="flex: 0 0 auto;">
+                            <img src="images/penn_treebank.png" style="width: 300px;">
+                        </div>
+                    </div>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Annotation: Crowdsourcing
+
+                        **More recent trend** (2008-present):
+                        - Platforms like Amazon Mechanical Turk
+                        - Hard to train annotators
+                        - But easier to get **multiple annotations** per input
+                        - Average or vote to get final label
+
+                        **Example**: Stanford Sentiment Treebank
+                        - Crowdsourced sentiment labels at phrase level
+
+                        <img src="images/sentiment_tree.png" style="width: 70%; display: block; margin: 0 auto;">
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Natural Annotation
+
+                        Some labels exist naturally on the web:
+
+                        - **Star ratings** on reviews → sentiment
+                        - **Upvotes/downvotes** → quality
+                        - **Clicks** → relevance
+                        - **Shares/retweets** → engagement
+
+                        Large scale, but may be noisy or biased.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## When Humans Disagree
+
+                        Which tweet got shared by more people?
+
+
+                        <img src="images/tweet.png" style="width: 70%; display: block; margin: 0 auto;">
+                        <p class="citation"><a href="https://arxiv.org/abs/1405.1438">The Effect of Wording on Message Propagation: Topic- and Author-Controlled Natural Experiments on Twitter.</a> Tan, Pang, and Lee (2014)</p>
+                    </textarea>
+                </section>
+
+                <section>
+                    <h2>Tasks Humans Cannot Do Well</h2>
+                    <p><strong>Deception detection</strong>:</p>
+                    <blockquote style="width: 100%; text-align: left; font-size: 0.9em;">
+                        My stay at the Talbott was a wonderful experience. The service at this upscale hotel was beyond my expectations, the Gold Coast location is close to Michigan Ave, the museums, and many of the other sites Chicago has to offer. If you are visiting Chicago, I highly recommend the Talbott!
+                    </blockquote>
+                    <p>Is this review genuine or fake?</p>
+                    <p class="fragment">Human performance is <strong>not</strong> the ceiling for all tasks!</p>
+
+                    <p class="citation"><a href="https://arxiv.org/abs/1107.4557">Finding Deceptive Opinion Spam by Any Stretch of the Imagination.</a> Ott, Choi, Cardie, Hancock (2011)</p>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Assumptions Behind Annotation
+
+                        1. Humans can perform this task. <!-- .element: class="fragment" -->
+
+                        2. Human performance is the ceiling. <!-- .element: class="fragment" -->
+
+                        Neither is true any more. An exciting question to think about! <!-- .element: class="fragment" -->
+
+                        That said, always check inter-annotator agreement. <!-- .element: class="fragment" -->
+                        - Even simple tasks have disagreement. <!-- .element: class="fragment" -->
+                        - Important for interpreting results. <!-- .element: class="fragment" -->
+                    </textarea>
+                </section>
+
+
+
+               
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Getting high-quality data is at the heart of AI.
+                    </textarea>
+                </section>
+            </section>
+
+            <!-- Summary Section -->
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Summary
+
+                        - **Classification**: Map text to categories (sentiment, NLI, etc.).
+                        - **Probabilistic classification**: Softmax converts scores to probabilities; cross-entropy loss = negative log-likelihood.
+                        - **Logistic regression**: Linear score function + softmax.
+                        - **Feature engineering**: Bag of words, unigrams, bigrams, feature cutoffs.
+                        - **Neural approaches**: Learn representations from embeddings; non-linear decision boundaries.
+                        - **Data annotation**: Gold standard (experts, crowdsourcing) vs. natural labels; think about the role of humans in this process.
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        # Questions?
+                    </textarea>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/math/math.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealMath.KaTeX ]
+        });
+    </script>
+</body>
+</html>
