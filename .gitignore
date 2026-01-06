@@ -37,3 +37,6 @@ Temporary Items
 .ipynb_checkpoints/
 *.txt
 *.pdf
+
+# private images
+*private*
