@@ -50,6 +50,20 @@ uv run jupyter lab
 
 4. To view as slides, use the RISE extension (enter slideshow mode from the toolbar).
 
+### Exporting RISE Slides to HTML
+
+To convert a Jupyter notebook to standalone HTML slides:
+
+```bash
+jupyter nbconvert --to slides --embed-images lecture-01/tokenize.ipynb
+```
+
+Then add the UChicago theme by inserting this line right before `</head>` in the generated HTML file:
+
+```html
+<link href="../assets/css/uchicago-theme.css" rel="stylesheet"/>
+```
+
 ## Deploying to GitHub Pages
 
 1. Push your repository to GitHub
