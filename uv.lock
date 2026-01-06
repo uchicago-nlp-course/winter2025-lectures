@@ -3399,7 +3399,7 @@ wheels = [
 ]
 
 [[package]]
-name = "winter2025-lectures"
+name = "winter2026-lectures"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
