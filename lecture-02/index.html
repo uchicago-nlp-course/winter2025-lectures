@@ -46,6 +46,8 @@
                     - We have compute support from Modal (see details on Ed)
                     - We now have #wi26_music and #wi26_jokes on Discord!
                     - A1 is due on Tuesday
+                    - DSI building
+                    - Email
                 </textarea>
             </section>
 
@@ -243,7 +245,17 @@
 
                         Both may remove information. To mitigate, combine lemma/stem form with
                         original form, use both!
-                        
+
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Lemmatization: A Literary Perspective
+
+                        Lemmatization reduces "am," "is," and "are" all to "be."
+
+                        So Shakespeare wasn't being poetic with "To be or not to be" - he was just doing NLP preprocessing.
                     </textarea>
                 </section>
 
@@ -431,8 +443,8 @@
                     <textarea data-template>
                         ## tf-idf
 
-                        - **tf** is just the count of the two words
-                        - **idf** is computed for the context word
+                        - **tf** is just the count of a word
+                        - **idf** is computed for a word
                             - document frequency = number of documents in which a word appears
                             - inverse of document frequency will be small for common words
                         - Vector entry is then the product of tf and idf
@@ -547,7 +559,7 @@
                             - Compute $P(context|center)$ using similarity of word vectors
                         - Adjust vectors via SGD to minimize the following objective function
 
-                        $$J(\theta) = -\frac{1}{T} \log L(\theta) = -\frac{1}{T} \sum_{t=1}^{T} \sum_{-m \leq j \leq m, j \neq 0} P(w_{t+j} | w_t; \theta)$$
+                        $$J(\theta) = -\frac{1}{T} \log L(\theta) = -\frac{1}{T} \sum_{t=1}^{T} \sum_{-m \leq j \leq m, j \neq 0} \log P(w_{t+j} | w_t; \theta)$$
                     </textarea>
                 </section>
 
