@@ -27,14 +27,27 @@
                     <p style="text-align: center;">
                     <strong>Chenhao Tan</strong><br/>
                     University of Chicago<br/>
-                    @ChenhaoTan, chenhao@uchicago.edu
+                    @ChenhaoTan, @chenhaotan.bsky.social<br/>
+                    chenhao@uchicago.edu
                     </p>
                     <a
                     href="https://github.com/uchicago-nlp-course/winter-2025-students/issues/1">Submit
-                    Music Recommendations</a>
+                    Music Recommendations</a>, kudos to Mina Lee <br>
+                    <a
+                    href="https://github.com/uchicago-nlp-course/winter-2025-students/issues/2">Submit
+                    jokes</a>
                 </textarea>
             </section>
 
+            <section data-markdown>
+                <textarea data-template>
+                    ## House Keeping
+                    - Vote on <a href="https://hypogenic.ai/arena">hypogenic.ai/arena</a> by the end of Friday
+                    - We have compute support from Modal (see details on Ed)
+                    - We now have #wi26_music and #wi26_jokes on Discord!
+                    - A1 is due on Tuesday
+                </textarea>
+            </section>
 
 
             <!-- Tokenization Section -->
@@ -256,10 +269,13 @@
                     <textarea data-template>
                         ## How do we represent words computationally?
 
-                        荃者所以在鱼，得鱼而忘荃 Nets are for fish;
-                        Once you get the fish, you can forget the net.
+                        荃者所以在鱼，得鱼而忘荃
 
-                        言者所以在意，得意而忘言 Words are for meaning;
+                        Nets are for fish; Once you get the fish, you can forget the net.
+
+                        言者所以在意，得意而忘言 
+                        
+                        Words are for meaning;
                         Once you get the meaning, you can forget the words.
 
                         <p class="citation">庄子 (Zhuangzi), Chapter 5</p>
@@ -502,9 +518,9 @@
 
                         <img src="word2vec.png" style="max-width: 60%; display: block; margin: 0 auto;">
 
-                        `The main goal of this paper is to introduce techniques that can be used
-                        for learning high-quality word vectors from **huge** data sets with billions of
-                        words, and with millions of words in the vocabulary.`
+                        > The main goal of this paper is to introduce techniques that can be used
+                        > for learning high-quality word vectors from **huge** data sets with billions of
+                        > words, and with millions of words in the vocabulary.
                     </textarea>
                 </section>
 
@@ -528,10 +544,10 @@
                         - Start with a large corpus of text
                         - Go through each position $t$ in the text
                         - Predict context words using center word vectors
-                            - Compute $P(o|c)$ using similarity of word vectors
+                            - Compute $P(context|center)$ using similarity of word vectors
                         - Adjust vectors via SGD to minimize the following objective function
 
-                        $$J(\theta) = -\frac{1}{T} \log L(\theta) = -\frac{1}{T} \sum{t=1}^{T} \sum_{-m \leq j \leq m, j \neq 0} P(w_{t+j} | w_t; \theta)$$
+                        $$J(\theta) = -\frac{1}{T} \log L(\theta) = -\frac{1}{T} \sum_{t=1}^{T} \sum_{-m \leq j \leq m, j \neq 0} P(w_{t+j} | w_t; \theta)$$
                     </textarea>
                 </section>
 
